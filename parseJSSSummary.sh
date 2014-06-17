@@ -39,10 +39,11 @@
 #	HISTORY
 #
 #	Version 1.0 Created by Sam Fortuna on June 13th, 2014
-#	Version 1.1 Updated by Sam Fortuna on June 16th, 2014
+#	Version 1.1 Updated by Sam Fortuna on June 17th, 2014
 #		-Fixed issues with parsing some data types
 #		-Added comments for readability
 #		-Added output about check-in information
+#		-Added database size parsing
 #
 ####################################################################################################
 
