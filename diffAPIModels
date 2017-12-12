@@ -20,10 +20,11 @@ if [[ ! -d "$currentFolder/api" && ! -d "$betaFolder/api" ]]; then
 	mkdir $currentFolder
 	mkdir $betaFolder
 	cd $currentFolder
-	jar -xfv "$current"
-	echo $current
+	echo "Expanding $current"
+	jar -xfv "$current" > /dev/null 2>&1
 	cd $betaFolder
-	jar -xfv "$beta"
+	echo "Expanding $beta"
+	jar -xfv "$beta"> /dev/null 2>&1
 fi
 
 #Start the diff process
