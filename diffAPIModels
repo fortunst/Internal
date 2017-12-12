@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#Set path to ROOT.war for the current version
+read -ep "Enter the path to the ROOT.war for the current Jamf Pro version " current
+#current=$(echo $current | sed 's/ /\\ /')
+
+#Set path to the ROOT.war for the version to compare against
+read -ep "Enter the path to the ROOT.war for the RC/Beta Jamf Pro version " beta
+#beta=$(echo $beta | sed 's/ /\\ /')
+
+#Path variables
+basePath="/tmp/APIDiff"
+currentFolder="$basePath/Current"
+betaFolder="$basePath/Beta"
+currentAPI="$currentFolder/api/model/*"
+
+#check if expanded before executing the following:
+if [[ ! -d "$currentFolder/api" && ! -d "$betaFolder/api" ]]; then
+	mkdir $basePath
+	mkdir $currentFolder
+	mkdir $betaFolder
+	cd $currentFolder
+	jar -xfv "$current"
+	echo $current
+	cd $betaFolder
+	jar -xfv "$beta"
+fi
+
+#Start the diff process
+echo "Comparing base model directories to see if any new endpoints have been added:"
+diff -rq "$currentFolder/api/model" "$betaFolder/api/model"
+
+echo "Comparing individual .json files to check for changes within each:"
+for filename in $currentAPI; do
+	file=`echo "$filename" | awk -F / '{print $NF}'`
+	diff -u "$currentFolder/api/model/$file" "$betaFolder/api/model/$file"
+done
+#Clean up
+rm -rf $basePath
